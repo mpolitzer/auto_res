@@ -3,12 +3,13 @@
 #include <msp430f2121/timer0.inl>
 
 void timer0_ta0_irq() {
-	gpio0_clr(P0);
+	gpio0_set(P0);
 }
 
 void gpio0_irq()  {
 	TA0R = 0;
-	gpio0_set(P0);
+
+	gpio0_clr(P0);
 	P1IES ^= P1;
 	P1IFG &=~P1;
 }
