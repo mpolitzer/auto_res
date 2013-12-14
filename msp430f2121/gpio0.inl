@@ -13,5 +13,16 @@ static inline void gpio0_out (gpio_mask m) { P1DIR |= m; }
 static inline void gpio0_in  (gpio_mask m) { P1DIR &=~m; }
 static inline void gpio0_pu  (gpio_mask m) { P1REN |= m; }
 static inline gpio_mask gpio0_read(void) { return P1IN; }
+static inline void gpio0_irq_enable(gpio_mask m)  { P1IE |= m; }
+static inline void gpio0_irq_onrise(gpio_mask m) {
+	P1IES |= m;
+	P1IFG &=~m;
+}
+
+static inline void gpio0_irq_onfall(gpio_mask m) {
+	P1IES &=~m;
+	P1IFG &=~m;
+}
+
 
 #endif /* GPIO0_INL */

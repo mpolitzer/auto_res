@@ -1,12 +1,13 @@
 PREFIX=msp430-
-mcu=msp430f2121
+mcu=msp430g2553
 
 CC=$(PREFIX)gcc
 OBJCOPY=$(PREFIX)objcopy
 SIZE=$(PREFIX)size
 
 CPATH=-I.
-RESOURCES=main.c $(mcu)/irqs.c
+RESOURCES=main.c $(mcu)/irqs.c\
+	  nrf24l01p.c
 
 SRC=$(filter %.c, ${RESOURCES})
 HDR=$(filter %.h, ${RESOURCES})

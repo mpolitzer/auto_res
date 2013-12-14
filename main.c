@@ -1,6 +1,6 @@
-#include <msp430f2121/cpu.inl>
-#include <msp430f2121/gpio0.inl>
-#include <msp430f2121/timer0.inl>
+#include <msp430g2553/cpu.inl>
+#include <msp430g2553/gpio0.inl>
+#include <msp430g2553/timer0.inl>
 
 void timer0_ta0_irq() {
 	gpio0_set(P0);
