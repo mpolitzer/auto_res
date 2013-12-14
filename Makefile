@@ -34,4 +34,6 @@ $(OBJ): %.o: %.c
 	$(CC) -MM $(CFLAGS) $(SRC) > .depend.mk
 clean:
 	rm -f $(EXE) $(HEX) $(OBJ)
+flash: $(EXE)
+	mspdebug rf2500 "prog $(EXE)"
 -include .depend.mk
