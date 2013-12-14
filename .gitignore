@@ -1,6 +1,7 @@
 *.o
 *.hex
 .depend.mk
+*.swp
 
 # proteus stuff
 *.PWI
