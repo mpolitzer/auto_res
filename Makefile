@@ -33,5 +33,5 @@ $(OBJ): %.o: %.c
 .depend.mk: $(RESOURCES) Makefile
 	$(CC) -MM $(CFLAGS) $(SRC) > .depend.mk
 clean:
-	rm -f $(EXE) $(OBJ)
+	rm -f $(EXE) $(HEX) $(OBJ)
 -include .depend.mk
