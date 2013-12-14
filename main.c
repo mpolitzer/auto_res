@@ -10,7 +10,6 @@ void gpio0_irq()  {
 	TA0R = 0;
 
 	gpio0_clr(P0);
-	P1IES ^= P1;
 	P1IFG &=~P1;
 }
 
@@ -20,9 +19,9 @@ int main(int argc, char *argv[]) {
 	gpio0_init();
 
 	gpio0_out(P0);
+	gpio0_pullup(P1 | P2 | P3);
 	P1IE   = P1;
 	P1IES  = P1;
-	P1REN  = P1;
 	P1IFG &=~P1;
 
 	for (;;) {
