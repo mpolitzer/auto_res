@@ -19,7 +19,7 @@ int main(int argc, char *argv[]) {
 	gpio0_init();
 
 	gpio0_out(P0);
-	gpio0_pullup(P1 | P2 | P3);
+	gpio0_pu (P1 | P2 | P3);
 	P1IE   = P1;
 	P1IES  = P1;
 	P1IFG &=~P1;

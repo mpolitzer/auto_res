@@ -11,7 +11,7 @@ static inline void gpio0_clr (gpio_mask m) { P1OUT &=~m; }
 static inline void gpio0_flip(gpio_mask m) { P1OUT ^= m; } 
 static inline void gpio0_out (gpio_mask m) { P1DIR |= m; }
 static inline void gpio0_in  (gpio_mask m) { P1DIR &=~m; }
-static inline void gpio0_pup (gpio_mask m) { P1REN |= m; }
+static inline void gpio0_pu  (gpio_mask m) { P1REN |= m; }
 static inline gpio_mask gpio0_read(void) { return P1IN; }
 
 #endif /* GPIO0_INL */
