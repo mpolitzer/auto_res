@@ -1,16 +1,10 @@
 CPATH=-I.
-#GL=shader.c shader.h util.c opengl.h
-#DS=oco_string.c oco_string.h
-#SRLA=srv4_sse.c srm4_sse.c
-#GEOM=sphere.c sphere.h vertex.h
-#RESOURCES=$(addprefix gfx/, ${GL})\
-#	  $(addprefix cds/, ${DS})\
-#	  $(addprefix la/, ${SRLA})\
-#	  $(addprefix geom/, ${GEOM})\
-#	  main.c
 
 # .c, .h, .S
-RESOURCES=main.c
+RESOURCES=main.c \
+	layer1.c layer1.h \
+	layer2.c layer2.h \
+	layer3.c layer3.h
 
 SRC=$(filter %.c, ${RESOURCES})
 HDR=$(filter %.h, ${RESOURCES})
@@ -18,9 +12,6 @@ OBJ=${SRC:.c=.o}
 
 CFLAGS=-march=native -O2 -Wall -g $(CPATH)
 LDFLAGS=-O2 -lm
-#PKG=sdl2 glew gl
-#CFLAGS +=`pkg-config $(PKG) --cflags`
-#LDFLAGS+=`pkg-config $(PKG) --static --libs`
 EXE=main
 
 .PHONY: all clean
