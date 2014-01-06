@@ -11,3 +11,10 @@ bool l3_found(Node *n, nodeid_t id)
 {
 	return true;
 }
+
+void l3_handle_rogm(Node *n, MessageL3 *m)
+{
+	
+}
+
+/* --------------------------------------- */

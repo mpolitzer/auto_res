@@ -22,27 +22,32 @@ static MessageL2 *l2_new_message(nodeid_t src, nodeid_t dst, int type, MessageL3
 
 void l2_tick(Node *self)
 {
+	int i;
+
+	if(--self->pending_timeout == 0)
+	{
+		MessageL2 *m = cbuf_peek(&(self->tx));
+		l1_send(m->dst, m);
+		self->pending_timeout = PENDING_MAX;
+	}
 }
 
 void l2_send_l3_message(Node *self, MessageL3 *ml3, nodeid_t hop)
 {
 	MessageL2 *ml2 = l2_new_message(self->id, hop, L2_L3, ml3);
 	cbuf_put(&(self->tx), ml2);
-	//l1_send(self, ml2);
 }
 
 void l2_send_alive(Node *self, nodeid_t to)
 {
 	MessageL2 *ml2 = l2_new_message(self->id, to, L2_ALIVE, NULL);
 	cbuf_put(&(self->tx), ml2);
-	//l1_send(self, ml2);
 }
 
 void l2_send_ack(Node *self, nodeid_t to)
 {
 	MessageL2 *ml2 = l2_new_message(self->id, to, L2_ACK, NULL);
 	cbuf_put(&(self->tx), ml2);
-	// l1_send(self, ml2);
 }
 
 void l2_recv(Node *self, MessageL2 *m)
@@ -63,6 +68,7 @@ void l2_recv(Node *self, MessageL2 *m)
 	{
 		case L2_L3:
 			cbuf_put(&(self->rx), m);
+			l2_send_ack(self, m->src);
 			break;
 		case L2_ACK:
 			self->pending_timeout = 0;

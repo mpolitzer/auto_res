@@ -55,14 +55,16 @@ static inline bool cbuf_isempty(struct cbuf *b)
 	return cbuf_count(b) == b->mask+1;
 }
 
-static inline void cbuf_put(struct cbuf *b, void *v) 
+static inline bool cbuf_put(struct cbuf *b, void *v) 
 {
 	assert(b && "invalid 'b' is NULL");
-	assert(!cbuf_isfull(b) && "buffer overflow");
+//	assert(!cbuf_isfull(b) && "buffer overflow");
 
-	/* if full, drop oldest value */
-	if (cbuf_isfull(b)) b->head++;
+	/* if full, drop newest value */
+	if (cbuf_isfull(b)) return false;
+
 	b->p[b->tail++ & b->mask] = v;
+	return true;
 }
 
 static inline void* cbuf_get(struct cbuf *b) 
@@ -72,6 +74,15 @@ static inline void* cbuf_get(struct cbuf *b)
 
 	if (cbuf_isempty(b)) return NULL;
 	return b->p[b->head++ & b->mask];
+}
+
+static inline void* cbuf_peek(struct cbuf *b) 
+{
+	assert(b && "invalid 'b' is NULL");
+	assert(!cbuf_isempty(b) && "buffer underflow");
+
+	if (cbuf_isempty(b)) return NULL;
+	return b->p[b->head & b->mask];
 }
 
 #endif /* CBUF_H */
