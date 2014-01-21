@@ -4,22 +4,31 @@
 #include "common.h"
 #include "cbuf.h"
 
-typedef struct {
+typedef struct 
+{
 	bool exist;
 	uint16_t id;
-	struct {
-		
+
+	struct 
+	{
 		// layer 3
+		nodeid_t id;
 		nodeid_t hop;
 		uint8_t seq_bcast; 
-		uint8_t seq_ogm:1; 
+		uint8_t seq_ogm; 
+	} l3[NODE_MAX];
 
+	struct 
+	{
 		// layer 2
-		uint8_t timeout:7;
-	} nodes[NODE_MAX];
+		nodeid_t id;
+		uint8_t timeout;
+	} l2[NODE_MAX];
+	uint16_t l2_cnt;
 
 	CBuf rx, tx;
 	uint8_t pending_timeout;
+	uint8_t alive_timeout;
 } Node;
 
 #endif  /* NODE_H */

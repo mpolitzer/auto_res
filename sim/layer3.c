@@ -7,6 +7,11 @@
 
 /* --------------------------------------- */
 
+bool l3_died(Node *n, nodeid_t id)
+{
+	return true;
+}
+
 bool l3_found(Node *n, nodeid_t id)
 {
 	return true;

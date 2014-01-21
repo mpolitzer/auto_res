@@ -11,7 +11,8 @@ typedef uint16_t nodeid_t;
 #define MSG_BUF_MAX  128
 
 /* up to 127 */
-#define ALIVE_MAX (100)
+#define TIMEOUT_TO_DEAD (100)
+#define ALIVE_INTERVAL (0.70*(TIMEOUT_TO_DEAD)) // 70 %
 
 /* up to 255 */
 #define PENDING_MAX (100)
