@@ -4,6 +4,7 @@
 
 #include "node.h"
 #include "layer1.h"
+#include "report.h"
 #include <stdlib.h>
 #include <limits.h>
 
@@ -15,15 +16,25 @@ static uint16_t node_count;
 
 /* --------------------------------------- */
 
+void l1_tick()
+{
+	int i;
+	for(i = 1; i <= node_count; i++)
+	{
+		l2_tick(l1_get_node(i));
+	}
+}
+
 void l1_init(uint16_t count)
 {
 	assert(count && count < NODE_MAX && "Amount of nodes is too damn high!");
 	node_count = count;
 
 	int i;
-	for (i=1; i<count; i++) {
+	for (i=1; i<=count; i++) {
 		nodes[i].exist = true;
 		nodes[i].id = i;
+		cbuf_init(&(nodes[i].tx_ack), malloc(sizeof(void*)*MSG_BUF_MAX), MSG_BUF_MAX);
 		cbuf_init(&(nodes[i].tx), malloc(sizeof(void*)*MSG_BUF_MAX), MSG_BUF_MAX);
 		cbuf_init(&(nodes[i].rx), malloc(sizeof(void*)*MSG_BUF_MAX), MSG_BUF_MAX);
 	}
@@ -57,5 +68,7 @@ void l1_send(nodeid_t n, MessageL2 *m)
 	for (i=1; i<node_count; i++) {
 		if (l1_get_weight(n, i) > (rand() % UCHAR_MAX))
 			l2_recv(l1_get_node(i), m);
+		else if(l1_get_weight(n, i) > 0)
+			report(REPORT_L1_FAILED, "L1_FAILED: %d -> %d\n", n, i);
 	}
 }

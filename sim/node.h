@@ -26,7 +26,7 @@ typedef struct
 	} l2[NODE_MAX];
 	uint16_t l2_cnt;
 
-	CBuf rx, tx;
+	CBuf rx, tx, tx_ack;
 	uint8_t pending_timeout;
 	uint8_t alive_timeout;
 } Node;

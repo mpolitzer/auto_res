@@ -2,6 +2,7 @@
 
 #include <stdlib.h>
 #include "common.h"
+#include "report.h"
 #include "layer3.h"
 #include "layer2.h"
 

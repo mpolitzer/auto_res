@@ -2,6 +2,7 @@ CPATH=-I.
 
 # .c, .h, .S
 RESOURCES=main.c \
+	report.c report.h \
 	layer1.c layer1.h \
 	layer2.c layer2.h \
 	layer3.c layer3.h
