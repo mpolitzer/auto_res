@@ -30,6 +30,7 @@ set mouse=a
 set ruler
 set runtimepath=~/.vim/bundle/ultisnips,~/.vim,/usr/share/vim/vimfiles,/usr/share/vim/vim74,/usr/share/vim/vimfiles/after,~/.vim/after,~/.vim/bundle/vundle/,~/.vim/bundle/ultisnips/after
 set suffixes=.bak,~,.swp,.o,.info,.aux,.log,.dvi,.bbl,.blg,.brf,.cb,.ind,.idx,.ilg,.inx,.out,.toc
+set window=47
 let s:so_save = &so | let s:siso_save = &siso | set so=0 siso=0
 let v:this_session=expand("<sfile>:p")
 silent only
@@ -43,12 +44,14 @@ badd +1 Makefile
 badd +1 layer1.h
 badd +1 layer1.c
 badd +1 layer2.h
-badd +25 layer2.c
+badd +1 layer2.c
 badd +1 layer3.h
 badd +1 layer3.c
 badd +1 node.h
 badd +1 common.h
 badd +44 cbuf.h
+badd +0 report.c
+badd +0 report.h
 args main.c
 edit main.c
 set splitbelow splitright
@@ -60,8 +63,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 96 + 96) / 193)
-exe 'vert 2resize ' . ((&columns * 96 + 96) / 193)
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 190)
+exe 'vert 2resize ' . ((&columns * 94 + 95) / 190)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -166,7 +169,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 6 - ((5 * winheight(0) + 22) / 44)
+let s:l = 6 - ((0 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -278,15 +281,15 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 2 - ((1 * winheight(0) + 22) / 44)
+let s:l = 2 - ((0 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 2
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 96 + 96) / 193)
-exe 'vert 2resize ' . ((&columns * 96 + 96) / 193)
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 190)
+exe 'vert 2resize ' . ((&columns * 94 + 95) / 190)
 tabedit node.h
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -297,8 +300,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 96 + 96) / 193)
-exe 'vert 2resize ' . ((&columns * 96 + 96) / 193)
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 190)
+exe 'vert 2resize ' . ((&columns * 94 + 95) / 190)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -403,7 +406,7 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 30 - ((29 * winheight(0) + 22) / 44)
+let s:l = 30 - ((28 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
@@ -515,15 +518,15 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 18 - ((17 * winheight(0) + 22) / 44)
+let s:l = 18 - ((17 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 18
 normal! 025|
 wincmd w
-exe 'vert 1resize ' . ((&columns * 96 + 96) / 193)
-exe 'vert 2resize ' . ((&columns * 96 + 96) / 193)
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 190)
+exe 'vert 2resize ' . ((&columns * 94 + 95) / 190)
 tabedit layer1.c
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -534,8 +537,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 96 + 96) / 193)
-exe 'vert 2resize ' . ((&columns * 96 + 96) / 193)
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 190)
+exe 'vert 2resize ' . ((&columns * 94 + 95) / 190)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -640,12 +643,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 61 - ((43 * winheight(0) + 22) / 44)
+let s:l = 38 - ((28 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-61
-normal! 0
+38
+normal! 016|
 wincmd w
 argglobal
 edit layer1.h
@@ -752,15 +755,15 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 22) / 44)
+let s:l = 1 - ((0 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
 1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 96 + 96) / 193)
-exe 'vert 2resize ' . ((&columns * 96 + 96) / 193)
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 190)
+exe 'vert 2resize ' . ((&columns * 94 + 95) / 190)
 tabedit layer2.c
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -771,8 +774,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 96 + 96) / 193)
-exe 'vert 2resize ' . ((&columns * 96 + 96) / 193)
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 190)
+exe 'vert 2resize ' . ((&columns * 94 + 95) / 190)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -877,11 +880,11 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 1 - ((0 * winheight(0) + 22) / 44)
+let s:l = 133 - ((18 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-1
+133
 normal! 0
 wincmd w
 argglobal
@@ -989,15 +992,15 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 6 - ((5 * winheight(0) + 22) / 44)
+let s:l = 26 - ((25 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-6
+26
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 96 + 96) / 193)
-exe 'vert 2resize ' . ((&columns * 96 + 96) / 193)
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 190)
+exe 'vert 2resize ' . ((&columns * 94 + 95) / 190)
 tabedit layer3.c
 set splitbelow splitright
 wincmd _ | wincmd |
@@ -1008,8 +1011,8 @@ set nosplitbelow
 set nosplitright
 wincmd t
 set winheight=1 winwidth=1
-exe 'vert 1resize ' . ((&columns * 96 + 96) / 193)
-exe 'vert 2resize ' . ((&columns * 96 + 96) / 193)
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 190)
+exe 'vert 2resize ' . ((&columns * 94 + 95) / 190)
 argglobal
 setlocal keymap=
 setlocal noarabic
@@ -1114,12 +1117,12 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 14 - ((13 * winheight(0) + 22) / 44)
+let s:l = 1 - ((0 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-14
-normal! 0
+1
+normal! 039|
 wincmd w
 argglobal
 edit layer3.h
@@ -1226,16 +1229,255 @@ setlocal nowinfixwidth
 setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
-let s:l = 39 - ((28 * winheight(0) + 22) / 44)
+let s:l = 1 - ((0 * winheight(0) + 22) / 45)
 if s:l < 1 | let s:l = 1 | endif
 exe s:l
 normal! zt
-39
+1
 normal! 0
 wincmd w
-exe 'vert 1resize ' . ((&columns * 96 + 96) / 193)
-exe 'vert 2resize ' . ((&columns * 96 + 96) / 193)
-tabnext 4
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 190)
+exe 'vert 2resize ' . ((&columns * 94 + 95) / 190)
+tabedit report.h
+set splitbelow splitright
+wincmd _ | wincmd |
+vsplit
+1wincmd h
+wincmd w
+set nosplitbelow
+set nosplitright
+wincmd t
+set winheight=1 winwidth=1
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 190)
+exe 'vert 2resize ' . ((&columns * 94 + 95) / 190)
+argglobal
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal balloonexpr=
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal noexpandtab
+if &filetype != 'cpp'
+setlocal filetype=cpp
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=2
+setlocal imsearch=2
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=8
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'cpp'
+setlocal syntax=cpp
+endif
+setlocal tabstop=8
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 12 - ((11 * winheight(0) + 22) / 45)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+12
+normal! 023|
+wincmd w
+argglobal
+edit report.c
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal balloonexpr=
+setlocal nobinary
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal nocindent
+setlocal cinkeys=0{,0},0),:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=s1:/*,mb:*,ex:*/,://,b:#,:%,:XCOMM,n:>,fb:-
+setlocal commentstring=/*%s*/
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal define=
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal noexpandtab
+if &filetype != 'c'
+setlocal filetype=c
+endif
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=tcq
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal grepprg=
+setlocal iminsert=2
+setlocal imsearch=2
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=
+setlocal indentkeys=0{,0},:,0#,!^F,o,O,e
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal nolist
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=octal,hex
+set number
+setlocal number
+setlocal numberwidth=4
+setlocal omnifunc=
+setlocal path=
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal shiftwidth=8
+setlocal noshortname
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal statusline=
+setlocal suffixesadd=
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'c'
+setlocal syntax=c
+endif
+setlocal tabstop=8
+setlocal tags=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal noundofile
+setlocal undolevels=-123456
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let s:l = 12 - ((11 * winheight(0) + 22) / 45)
+if s:l < 1 | let s:l = 1 | endif
+exe s:l
+normal! zt
+12
+normal! 0
+wincmd w
+2wincmd w
+exe 'vert 1resize ' . ((&columns * 95 + 95) / 190)
+exe 'vert 2resize ' . ((&columns * 94 + 95) / 190)
+tabnext 5
 if exists('s:wipebuf')
   silent exe 'bwipe ' . s:wipebuf
 endif

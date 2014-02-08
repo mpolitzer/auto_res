@@ -1,6 +1,6 @@
 #include "report.h"
 
-static bool _report[REPORT_MAX];
+	static bool _report[REPORT_MAX];
 
 void report(enum report_types rtype, const char *format, ...)
 {

@@ -28,15 +28,15 @@ void l2_tick(Node *self)
 {
 	int i;
 
+	if(!self->l2_cnt)
+	{
+		report(REPORT_L2_HELLO, "L2_HELLO: %d -> %d\n", self->id, 0);
+		l1_send(self->id, l2_new_message(self->id, 0, L2_ALIVE, NULL));
+	}
+
 	// send alive
 	if (self->alive_timeout == 0)
 	{
-		if(!self->l2_cnt) 
-		{
-			l1_send(self->id, l2_new_message(self->id, 0, L2_ALIVE, NULL));
-			report(REPORT_L2_ALIVE, "L2_ALIVE: %d -> %d\n", self->id, 0);
-		}
-
 		for (i = 0; i < self->l2_cnt; i++)
 			l2_send_alive(self, self->l2[i].id);
 		self->alive_timeout = ALIVE_INTERVAL;
@@ -60,22 +60,22 @@ void l2_tick(Node *self)
 	if(!cbuf_isempty(&(self->tx_ack)))
 	{
 		MessageL2 *m = cbuf_get(&(self->tx_ack));
-		l1_send(m->src, m);
-
 		report(REPORT_L2_ACK, "L2_ACK: %d -> %d\n", m->src, m->dst);
+		l1_send(m->src, m);
 	}
 	if(!cbuf_isempty(&(self->tx)))
 	{
 		if(self->pending_timeout == 0)
 		{
 			MessageL2 *m = cbuf_peek(&(self->tx));
-			l1_send(m->src, m);
-			self->pending_timeout = PENDING_MAX;
 
 			if(m->type == L2_ALIVE)
 				report(REPORT_L2_ALIVE, "L2_ALIVE: %d -> %d\n", m->src, m->dst);
 			else
 				report(REPORT_L2_L3, "L2_L3: %d -> %d\n", m->src, m->dst);
+
+			l1_send(m->src, m);
+			self->pending_timeout = PENDING_MAX;
 		}
 		else self->pending_timeout--;
 	}
@@ -108,7 +108,7 @@ void l2_send_alive(Node *self, nodeid_t to)
 void l2_send_ack(Node *self, nodeid_t to)
 {
 	MessageL2 *ml2 = l2_new_message(self->id, to, L2_ACK, NULL);
-	cbuf_put(&(self->tx), ml2);
+	cbuf_put(&(self->tx_ack), ml2);
 }
 
 void l2_recv(Node *self, MessageL2 *m)
@@ -119,18 +119,29 @@ void l2_recv(Node *self, MessageL2 *m)
 	// TODO: check sequence number from package.
 
 	int i;
+	int l2_idx;
 	// Timeout = 0 only happens if we don't know the src node
-	for (i=0; i < self->l2_cnt; i++)
-		if ((m->src == self->l2[i].id) && (self->l2[i].timeout == 0))
+
+	for(i=0, l2_idx=-1; i < self->l2_cnt; i++)
+	{
+		if ((m->src == self->l2[i].id))
 		{
-			self->l2[i].timeout = TIMEOUT_TO_DEAD;
-			l3_found(self, m->src);
+			l2_idx=i;
 			break;
 		}
+	}
+	if(l2_idx < 0)
+	{
+		if(l3_found(self, m->src))	
+		{
+			self->l2[self->l2_cnt].id = m->src;
+			self->l2[self->l2_cnt].timeout = TIMEOUT_TO_DEAD;
+			self->l2_cnt++;
+		}
+	} else if(m->type < L2_INVALID)
+		self->l2[l2_idx].timeout = TIMEOUT_TO_DEAD;
 
-	if(m->type < L2_INVALID)
-		self->l2[m->src].timeout = TIMEOUT_TO_DEAD;
-
+	/* msg is not for me! */
 	if (self->id != m->dst)
 		return;
 

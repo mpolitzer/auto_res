@@ -65,7 +65,7 @@ Node *l1_get_node(nodeid_t n)
 void l1_send(nodeid_t n, MessageL2 *m)
 {
 	nodeid_t i;
-	for (i=1; i<node_count; i++) {
+	for (i=1; i<=node_count; i++) {
 		if (l1_get_weight(n, i) > (rand() % UCHAR_MAX))
 			l2_recv(l1_get_node(i), m);
 		else if(l1_get_weight(n, i) > 0)

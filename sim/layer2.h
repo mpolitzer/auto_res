@@ -10,6 +10,7 @@ typedef struct {
 	{
 		L2_ACK,
 		L2_ALIVE,
+		L2_HELLO,
 		L2_L3,
 		L2_INVALID,
 

@@ -14,6 +14,7 @@ uint8_t l1_get_weight(nodeid_t n1, nodeid_t n2);
 Node   *l1_get_node(nodeid_t n);
 
 void    l1_send(nodeid_t n, MessageL2 *m);
+void    l1_tick(void);
 
 /* --------------------------------------- */
 
