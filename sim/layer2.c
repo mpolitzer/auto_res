@@ -13,9 +13,9 @@ void l2_send_alive(Node *self, nodeid_t to);
 static MessageL2 *l2_new_message(nodeid_t src, nodeid_t dst, int type, MessageL3 *m)
 {
 	MessageL2 *ml2 = malloc(sizeof(MessageL2));
-	ml2->ref = 1;
 	assert(ml2 && "Out of Memory.");
 
+	ml2->ref = 1;
 	ml2->msg = m;
 	ml2->src = src;
 	ml2->dst = dst;
@@ -169,7 +169,6 @@ void l2_recv(Node *self, MessageL2 *m)
 			break;
 		case L2_ACK:
 			self->pending_timeout = 0;
-			l2_del_message(cbuf_get(&self->tx));
 			break;
 		case L2_ALIVE:
 			l2_send_ack(self, m->src);
@@ -179,14 +178,13 @@ void l2_recv(Node *self, MessageL2 *m)
 			break;
 	}
 cleanup:
-	l2_del_message(m);
+	return;
 }
 
 MessageL3 * l2_recv_l3_message(Node * n)
 {
 	MessageL2 * m = cbuf_get(&(n->rx));
 	MessageL3 * ret = m->msg;
-	l2_del_message(m);
 	return ret;
 }
 
