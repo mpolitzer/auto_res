@@ -42,7 +42,7 @@ void l1_fini(void)
 	free(_weights);
 }
 
-uint32_t l1_n(void)
+uint32_t l1_get_n(void)
 {
 	return _n;
 }
@@ -97,19 +97,17 @@ void l1_send_to(struct l2_msg *msg, nid to)
 
 /* ========================================================================== */
 
-void l1_tick(void)
-{
-	for (uint32_t i=0; i<_n; i++) {
-		l2_tick(_nodes+i);
-	}
-	_tick++;
-}
-
 void l1_foreach_node(void (*run)(struct node_t *self))
 {
 	for (uint32_t i=0; i<_n; i++) {
 		run(_nodes+i);
 	}
+}
+
+void l1_tick(void)
+{
+	l1_foreach_node(l2_tick);
+	_tick++;
 }
 
 /* ========================================================================== */

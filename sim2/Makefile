@@ -5,7 +5,8 @@ RESOURCES=main.c \
 	  l1.c l1.h \
 	  l2.c l2.h \
 	  l3.c l3.h \
-	  report.c report.h
+	  report.c report.h \
+	  cli.c cli.h cliconf.h
 
 SRC=$(filter %.c, ${RESOURCES})
 HDR=$(filter %.h, ${RESOURCES})
