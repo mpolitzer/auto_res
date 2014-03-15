@@ -9,6 +9,11 @@
 /* --------------------------------------- */
 
 int main(int argc, char *argv[]) {
+	int ticks = 1000;
+
+	if (argc != 1) { /* iterate tick times. */
+		sscanf(argv[1], " %d\n", &ticks);
+	}
 
 	report_all();
 	l1_init(2);
@@ -17,9 +22,10 @@ int main(int argc, char *argv[]) {
 
 //	l2_send_l3_message(l1_get_node(1), NULL, 0);
 
-	while(1) {
+	while(ticks--) {
 		l1_tick();
 	}
+	l1_fini();
 
 	return 0;
 }
