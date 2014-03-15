@@ -16,6 +16,8 @@ typedef struct
 		nodeid_t hop;
 		uint8_t seq_bcast; 
 		uint8_t seq_ogm; 
+		uint8_t seq_rogm;
+		uint8_t ogm_timeout;
 	} l3[NODE_MAX];
 
 	struct 

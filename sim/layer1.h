@@ -7,6 +7,7 @@
 /* --------------------------------------- */
 
 void l1_init(uint16_t count);
+void l1_fini(void);
 
 void    l1_set_weight(nodeid_t n1, nodeid_t n2, uint8_t v);
 uint8_t l1_get_weight(nodeid_t n1, nodeid_t n2);
