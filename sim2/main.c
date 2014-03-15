@@ -37,10 +37,10 @@ uint16_t cmd_addlink(int argc, const char *argv[], void *envp) {
 				argv[0], max, max);
 		return -1;
 	}
-	int l1 = read_int(argv[1]),
-	    l2 = read_int(argv[2]),
+	int i = read_int(argv[1]),
+	    j = read_int(argv[2]),
 	    w  = read_int(argv[3]);
-	l1_set_weight(l1, l2, w);
+	l1_set_weight(i, j, w);
 	return 0;
 }
 
@@ -51,9 +51,30 @@ uint16_t cmd_dellink(int argc, const char *argv[], void *envp) {
 				argv[0], max, max);
 		return -1;
 	}
-	int l1 = read_int(argv[1]),
-	    l2 = read_int(argv[2]);
-	l1_set_weight(l1, l2, 0);
+	int i = read_int(argv[1]),
+	    j = read_int(argv[2]);
+	l1_set_weight(i, j, 0);
+	return 0;
+}
+
+uint16_t cmd_dotit(int argc, const char *argv[], void *envp) {
+	int i, j, w, n = l1_get_n()-1;
+	FILE *fil = stdout;
+
+	if (argc > 1)
+		fil = fopen(argv[1], "w");
+
+	fprintf(fil, "digraph {\n");
+	for (i = 0; i<n; i++) {
+		for (j = 0; j<n; j++) {
+			if ((w = l1_get_weight(i, j))) {
+				fprintf(fil, "\t%d -> %d;\n", i, j);
+			}
+		}
+	}
+	fprintf(fil, "}\n");
+	if (fil != stdout)
+		fclose(fil);
 	return 0;
 }
 
@@ -61,6 +82,7 @@ uint16_t cmd_dellink(int argc, const char *argv[], void *envp) {
 static struct cli_pair cmds[] = {
 	{ "addlink", cmd_addlink },
 	{ "dellink", cmd_dellink },
+	{ "dotit",   cmd_dotit },
 	{ "exit",    cmd_exit },
 	{ "step",    cmd_step },
 };
@@ -75,9 +97,9 @@ int main(int argc, char *argv[]) {
 	while (cli_gets(buf) != NULL) {
 		int err = cli_call(buf, cmds, ARRAY_COUNT(cmds), NULL);
 		switch (err) {
-		case-1: cli_puts("invalid command: ");
-			cli_puts(buf);
-			break;
+			case-1: cli_puts("invalid command: ");
+				cli_puts(buf);
+				break;
 		case 1: goto fini;
 		default: break;
 		}
