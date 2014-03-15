@@ -48,6 +48,16 @@ void l1_init(uint16_t count)
 	}
 }
 
+void l1_fini(void)
+{
+	int i;
+	for (i=1; i<=node_count; i++) {
+		free(cbuf_fini(&nodes[i].tx_ack, NULL));
+		free(cbuf_fini(&nodes[i].tx,     NULL));
+		free(cbuf_fini(&nodes[i].rx,     NULL));
+	}
+}
+
 void l1_set_weight(nodeid_t n1, nodeid_t n2, uint8_t v)
 {
 	assert(n1 < NODE_MAX && "node is out of bounds!");
@@ -74,9 +84,10 @@ void l1_send(nodeid_t n, MessageL2 *m)
 {
 	nodeid_t i;
 	for (i=1; i<=node_count; i++) {
-		if (l1_get_weight(n, i) > (rand() % UCHAR_MAX))
+		if (l1_get_weight(n, i) > (rand() % UCHAR_MAX)) {
+			l2_ref_message(m);
 			l2_recv(l1_get_node(i), m);
-		else if(l1_get_weight(n, i) > 0)
+		} else if(l1_get_weight(n, i) > 0)
 			report(l1_get_node(n), REPORT_L1_FAILED, "L1_FAILED: %d -> %d\n", n, i);
 	}
 }

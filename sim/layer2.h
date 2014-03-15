@@ -16,6 +16,7 @@ typedef struct {
 
 	} type;
 
+	uint8_t ref;
 	nodeid_t src;
 	nodeid_t dst; /* to whom? (next hop) */
 
@@ -28,6 +29,8 @@ void l2_tick(Node *n);
 void l2_recv(Node *n, MessageL2 *m); /* Callback from L1 */
 void l2_send_l3_message(Node *self, MessageL3 *ml3, nodeid_t hop);
 MessageL3 * l2_recv_l3_message(Node * n);
+
+void l2_ref_message(MessageL2 *m);
 
 /* --------------------------------------- */
 
