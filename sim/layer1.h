@@ -15,6 +15,7 @@ Node   *l1_get_node(nodeid_t n);
 
 void    l1_send(nodeid_t n, MessageL2 *m);
 void    l1_tick(void);
+int     l1_get_tick(void);
 
 /* --------------------------------------- */
 

@@ -10,6 +10,7 @@
 
 /* --------------------------------------- */
 
+static int _tick;
 static uint8_t M[NODE_MAX][NODE_MAX];
 static Node nodes[NODE_MAX];
 static uint16_t node_count;
@@ -19,10 +20,16 @@ static uint16_t node_count;
 void l1_tick()
 {
 	int i;
+
+	_tick++;
 	for(i = 1; i <= node_count; i++)
 	{
 		l2_tick(l1_get_node(i));
 	}
+}
+
+int l1_get_tick(void) {
+	return _tick;
 }
 
 void l1_init(uint16_t count)
@@ -31,6 +38,7 @@ void l1_init(uint16_t count)
 	node_count = count;
 
 	int i;
+	_tick = 0;
 	for (i=1; i<=count; i++) {
 		nodes[i].exist = true;
 		nodes[i].id = i;
@@ -69,6 +77,6 @@ void l1_send(nodeid_t n, MessageL2 *m)
 		if (l1_get_weight(n, i) > (rand() % UCHAR_MAX))
 			l2_recv(l1_get_node(i), m);
 		else if(l1_get_weight(n, i) > 0)
-			report(REPORT_L1_FAILED, "L1_FAILED: %d -> %d\n", n, i);
+			report(l1_get_node(n), REPORT_L1_FAILED, "L1_FAILED: %d -> %d\n", n, i);
 	}
 }

@@ -5,6 +5,8 @@
 #include <stdbool.h>
 #include <stdarg.h>
 
+#include "node.h"
+
 enum report_types {
 	REPORT_L1_FAILED,
 	REPORT_L2_ACK,
@@ -21,7 +23,7 @@ enum report_types {
 	REPORT_MAX,
 };
 
-void report(enum report_types rtype, const char *format, ...);
+void report(Node *n, enum report_types rtype, const char *format, ...);
 
 void report_enable(enum report_types rtype);
 void report_disable(enum report_types rtype);

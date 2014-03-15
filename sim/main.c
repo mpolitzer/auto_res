@@ -8,8 +8,6 @@
 
 /* --------------------------------------- */
 
-int clock;
-
 int main(int argc, char *argv[]) {
 
 	report_all();
@@ -20,8 +18,6 @@ int main(int argc, char *argv[]) {
 //	l2_send_l3_message(l1_get_node(1), NULL, 0);
 
 	while(1) {
-		clock++;
-		printf("clock: %d\n", clock);
 		l1_tick();
 	}
 

@@ -30,7 +30,7 @@ void l2_tick(Node *self)
 
 	if(!self->l2_cnt)
 	{
-		report(REPORT_L2_HELLO, "L2_HELLO: %d -> %d\n", self->id, 0);
+		report(self, REPORT_L2_HELLO, "L2_HELLO: %d -> %d\n", self->id, 0);
 		l1_send(self->id, l2_new_message(self->id, 0, L2_ALIVE, NULL));
 	}
 
@@ -60,7 +60,7 @@ void l2_tick(Node *self)
 	if(!cbuf_isempty(&(self->tx_ack)))
 	{
 		MessageL2 *m = cbuf_get(&(self->tx_ack));
-		report(REPORT_L2_ACK, "L2_ACK: %d -> %d\n", m->src, m->dst);
+		report(self, REPORT_L2_ACK, "L2_ACK: %d -> %d\n", m->src, m->dst);
 		l1_send(m->src, m);
 	}
 	if(!cbuf_isempty(&(self->tx)))
@@ -70,9 +70,9 @@ void l2_tick(Node *self)
 			MessageL2 *m = cbuf_peek(&(self->tx));
 
 			if(m->type == L2_ALIVE)
-				report(REPORT_L2_ALIVE, "L2_ALIVE: %d -> %d\n", m->src, m->dst);
+				report(self, REPORT_L2_ALIVE, "L2_ALIVE: %d -> %d\n", m->src, m->dst);
 			else
-				report(REPORT_L2_L3, "L2_L3: %d -> %d\n", m->src, m->dst);
+				report(self, REPORT_L2_L3, "L2_L3: %d -> %d\n", m->src, m->dst);
 
 			l1_send(m->src, m);
 			self->pending_timeout = PENDING_MAX;
