@@ -17,6 +17,7 @@ struct l2msg_t {
 
 	char pl[];
 };
+
 struct l2msg_alive_t {
 	uint16_t dst;
 };
@@ -39,7 +40,7 @@ struct l3msg_t {
 	char pl[];
 };
 
-struct l3msg_ctl {
+struct l3msg_ctl { /* no payload! */
 	uint8_t seq;
 };
 
@@ -56,6 +57,10 @@ void            msg_free (struct msg_t *);
 struct l2msg_t *msg_get_l2(struct msg_t *);
 struct l3msg_t *msg_get_l3(struct msg_t *);
 struct l4msg_t *msg_get_l4(struct msg_t *);
+
+/* node ===================================================================== */
+void node_init(struct node_t *);
+void node_tick(struct node_t *);
 
 /* l2 ======================================================================= */
 void l2_tick(struct node_t *); /* alive enviado de tempos em tempos. */
@@ -78,14 +83,20 @@ void l4_recv(struct node_t *, struct msg_t *);
 
 void l4_msg_timed_out(struct node_t *, struct msg_t *);
 
+/* radio ==================================================================== */
+void    radio_init(void);
+void    radio_send(uint16_t to, uint8_t *pl, uint8_t len);
+void    radio_read(uint8_t *pl);
+uint8_t radio_get_payload_lenght(void);
+
 /* -------------------------------------------------------------------------- */
 /* received message. */
 (recv)
-gpio_IRQ -> radio_recv(m) -> l2_recv(n, m) -> l3_recv(n, m) -> l4_recv(n, m)
-				|		|		|
-				|		|		+-> handle (l4_ack:"TCP" / timeout)
-				|		+-> handle(rogm, known)
-				+-> handle (hello, alive, l2_ack)
+gpio_IRQ -> worker -> radio_read(m) -> l2_recv(n, m) -> l3_recv(n, m) -> l4_recv(n, m)
+					|		|		|
+					|		|		+-> handle (l4_ack:"TCP" / timeout)
+					|		+-> handle(rogm, known)
+					+-> handle (hello, alive, l2_ack)
 
 /* -------------------------------------------------------------------------- */
 /* send message. */

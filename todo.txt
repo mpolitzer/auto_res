@@ -69,4 +69,21 @@ pacote.
 ## Quebra e reconstrução de mensagens longas
 ### Contexto: Mensagem maior do que cabe na L2
 
+## Prioridade na fila de envio.
+### Contexto: Vários pacotes esperando envio em ordem de chegada.
+### Problema: Possível atraso de pacotes prioritários.
+### Possiveis soluções:
+#### * 2 filas high e low. (consome X high para 1 low.)
+#### Priority queue.
+
+## Filtragem de mensagens recebidas.
+### Contexto: Receber uma mensagem destinada a outro (descartar).
+### Problema: Em que nível a aplicação discarta? Radio ou MCU.
+### Possiveis soluções:
+#### Radio: Ouvir no canal do seu endereço + ouvir um canal de broadcast.
+	Requer solução diferente para merge de grafos.
+	* Alive no canal publico?
+	* Hello sendo enviado continuamente?
+#### MCU: If em algum lugar...
+
 ## Malloc nessa porra
