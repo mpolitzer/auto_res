@@ -3,6 +3,11 @@
 #include <string.h>
 #include "msg.h"
 
+#define test(_f, cmt) _test(#_f, _f, cmt)
+void _test(const char *name, bool (*fn)(void), const char *cmt) {
+	printf("testing %s...\t%s (%s)\n", name, fn() ? "ok": "FAILED", cmt);
+}
+
 bool test_layer_sizes(void)
 {
 	if (msg_sizeof(2) != sizeof(struct l2msg_t))
@@ -43,7 +48,7 @@ bool test_layer_sizes(void)
 
 bool test_alloc_and_fill(void)
 {
-	for (int i=2; i<=4; i++)
+	for (int i=2; i<=4; i++) /* layer 2 to 4. */
 	{
 		struct msg_t *msg = msg_alloc(i, 1);
 		memset(msg, 0xAA, msg_sizeof(i)+1);
@@ -54,7 +59,7 @@ bool test_alloc_and_fill(void)
 
 int main(int argc, char *argv[])
 {
-	test_layer_sizes();
-	test_alloc_and_fill();
+	test(test_layer_sizes, "2, 3, 4, and invald cases");
+	test(test_alloc_and_fill, "fill with 0xAA, test with valgrind!");
 	return 0;
 }

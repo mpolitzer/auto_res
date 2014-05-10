@@ -2,13 +2,13 @@
 #define MSG_H
 #include <stdint.h>
 #include <stdlib.h>
-#include "list.h"
+#include "queue.h"
 struct msg_t {
-	struct list_head node;
+	struct queue_entry q;
 	uint8_t prio_high;
 
 	uint16_t dst;
-	uint8_t len; /* up to 32bytes */
+	uint8_t len; /* 1 to 32bytes */
 	char pl[];
 };
 

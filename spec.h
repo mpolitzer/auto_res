@@ -13,13 +13,16 @@ struct l2msg_t {
 	uint16_t src; // 2
 
 	uint8_t type; // 3
-	uint8_t  crc; // 4
+
+	/* seq or CRC, check todo decisions. */
+	uint8_t  crc; // 4 /* because we want to crypt the l2 package. AES? */
+	uint8_t seq;  // 4 /* to prevent replay attack. */
 
 	char pl[];
 };
 
 struct l2msg_alive_t {
-	uint16_t dst;
+	uint16_t dst; // 5
 };
 
 #define L3_OGM
@@ -28,14 +31,14 @@ struct l2msg_alive_t {
 #define L3_PL
 #define L3_PL_BROADCAST
 struct l3msg_t {
-	uint16_t src; // 6
-	uint16_t dst; // 8
-	uint8_t type; // 9
+	uint16_t src; // 5
+	uint16_t dst; // 7
+	uint8_t type; // 8
 #if 0
 	/* Do split later */
 	uint8_t df:1;
 	uint8_t mf:1;
-	uint8_t fragment_offset:6; // 10
+	uint8_t fragment_offset:6; // 9
 #endif
 	char pl[];
 };
@@ -84,10 +87,19 @@ void l4_recv(struct node_t *, struct msg_t *);
 void l4_msg_timed_out(struct node_t *, struct msg_t *);
 
 /* radio ==================================================================== */
-void    radio_init(void);
-void    radio_send(uint16_t to, uint8_t *pl, uint8_t len);
-void    radio_read(uint8_t *pl);
-uint8_t radio_get_payload_lenght(void);
+struct radio_t {
+	uint8_t sending;
+	uint8_t address[6][3];
+	struct radio_buffer = {
+		uint8_t msg[32];
+		uint8_t len;
+	} tx[3], rx[3];
+};
+
+void    radio_init(struct radio_t *, void (*cont)(void *arg), void *arg);
+void    radio_send(struct radio_t *, uint16_t to, uint8_t *pl, uint8_t len);
+void    radio_read(struct radio_t *, uint8_t *pl);
+uint8_t radio_get_payload_lenght(struct radio_t *);
 
 /* -------------------------------------------------------------------------- */
 /* received message. */

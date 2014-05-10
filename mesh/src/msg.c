@@ -5,7 +5,7 @@ size_t msg_sizeof(int layers)
 {
 	size_t total = 0;
 
-	switch (layers) {
+	switch (layers) { /* using fall-through. */
 	case 4: total += sizeof(struct l4msg_t);
 	case 3: total += sizeof(struct l3msg_t);
 	case 2: total += sizeof(struct l2msg_t);
