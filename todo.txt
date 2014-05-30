@@ -1,3 +1,9 @@
+(com contextos / sem ser singleton)
+definir api mesh_ (nivel de aplicação)
+definir api msg_ para nivel de aplicação (apenas layer5)
+specificar interface com o rádio (gpio, spi, etc...).
+================================================================================
+
 # dimensionar autores para a MCU com nordic.
 ## fazer como lib
 
@@ -81,9 +87,11 @@ pacote.
 ### Problema: Em que nível a aplicação discarta? Radio ou MCU.
 ### Possiveis soluções:
 #### Radio: Ouvir no canal do seu endereço + ouvir um canal de broadcast.
-	Requer solução diferente para merge de grafos.
-	* Alive no canal publico? --> POG
-	* Hello sendo enviado continuamente?
+	(Requer solução diferente para merge de grafos.)
+	Alive no canal publico? --> POG
+	Hello sendo enviado continuamente?
+	* Eliminar o alive, Hello periódico com timeout.
+	   Se der timeout, pergunta pro nó se ele está vivo (com timeout do ack)
 #### MCU: If em algum lugar...
 
 ## Criptografia a ser utilizada

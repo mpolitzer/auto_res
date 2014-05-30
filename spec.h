@@ -80,40 +80,50 @@ void l3_found(struct node_t *, node_id id);
 void l3_died (struct node_t *, node_id id);
 
 /* l4 ======================================================================= */
-/* timeouts? */
+/* (TCP/UDP) timeouts? */
 bool l4_send(struct node_t *, struct msg_t *);
 void l4_recv(struct node_t *, struct msg_t *);
 
 void l4_msg_timed_out(struct node_t *, struct msg_t *);
 
+/* l1 ======================================================================= */
+void l1_send(address);
+
 /* radio ==================================================================== */
-struct radio_t {
+#define PL_LEN_MAX 32
+struct radio_t { /* nrf24l01 */
 	uint8_t sending;
 	uint8_t address[6][3];
-	struct radio_buffer = {
-		uint8_t msg[32];
+	struct radio_buffer {
+		uint8_t msg[PL_LEN_MAX];
 		uint8_t len;
 	} tx[3], rx[3];
 };
 
-void    radio_init(struct radio_t *, void (*cont)(void *arg), void *arg);
+void    radio_init(struct radio_t *, void (*cont)(uint8_t pl_len, void *arg), void *arg);
 void    radio_send(struct radio_t *, uint16_t to, uint8_t *pl, uint8_t len);
-void    radio_read(struct radio_t *, uint8_t *pl);
-uint8_t radio_get_payload_lenght(struct radio_t *);
+void    radio_read(struct radio_t *, uint8_t pl[PL_LEN_MAX]);
 
 /* -------------------------------------------------------------------------- */
 /* received message. */
 (recv)
-gpio_IRQ -> worker -> radio_read(m) -> l2_recv(n, m) -> l3_recv(n, m) -> l4_recv(n, m)
-					|		|		|
-					|		|		+-> handle (l4_ack:"TCP" / timeout)
-					|		+-> handle(rogm, known)
-					+-> handle (hello, alive, l2_ack)
+gpio_IRQ -> worker -> l2_recv(msg, len) -> l3_recv(msg, len) -> l4_recv(msg, len)
+                       |                    |                    |
+                       |                    |                    +-> handle (l4_ack:"TCP" / timeout)
+                       |                    +-> handle(rogm, known)
+                       +-> handle (hello, alive, l2_ack)
+
+l2_recv(len, arg) {
+	char m[PL_LEN_MAX];
+	radio_read(&r, &m);
+	...
+}
 
 /* -------------------------------------------------------------------------- */
 /* send message. */
-l4_send(n, m) -> l3_send(n, m) -> l2_send(n, m)
-					|
-					+-> enqueue(m)
-					gpio_IRQ -> dequeue(m) -> radio_send(m)
+(user call)
+l5_send(m) -> l4_send(n, m) -> l3_send(n, m) -> l2_send(n, m)
+                                                      |
+                                                      +-> enqueue(m) or radio_send(m)
+                                                                            +-> gpio_IRQ -> dequeue(m) -> radio_send(m)
 /* -------------------------------------------------------------------------- */
