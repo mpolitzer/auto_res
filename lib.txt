@@ -1,0 +1,12 @@
+# threads (RX veio pelo ar; TX saiu pelo ar):
+	o radio (RX) - separa pacotes por camadas.
+		(TX) - duas filas com priorização.
+	o tick	(RX) - trata pacotes da layer lib (llib)
+		(TX) -
+	o main
+
+# filas (produtor -> consumidor):
+	tx-llib: (tick -> radio)
+	tx-lapp: (main -> radio)
+	rx-llib: (radio -> tick)
+	rx-lapp: (radio -> main)

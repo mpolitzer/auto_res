@@ -1,105 +1,15 @@
-(com contextos / sem ser singleton)
-definir api mesh_ (nivel de aplicação)
-definir api msg_ para nivel de aplicação (apenas layer5)
-specificar interface com o rádio (gpio, spi, etc...).
-================================================================================
+* definir as menasagens (agora que escolhemos modelo hello/ping):
+** l2
+  - [ ] hello
+  - [ ] ping
+  - [ ] ack
 
-# dimensionar autores para a MCU com nordic.
-## fazer como lib
+** l3
+  - [ ] ogm
+  - [ ] rogm
 
-## L1
-### Driver do radio
+** lapp
+  - [ ] msg
 
-## L2
-### Usa o radio pro que der
-#### CRC16
-#### retransmisao
-#### ack
-### Alocacao de memoria (fazer direito)
-### Buffers por instancia de no
-### AES (deixa destinatario descriptografado) + CRC para validar dados (1byte)
-### Sem handshake, preshared key
 
-## L3
-### A principio seria igual (simulador e MCU)
-### Quebrar e reconstruir pacotes
-
-## L4
-
-================================================================================
-# Fila de problemas
-
-## Merge de grafos multi end points
-### Contexto: dois end-points com filtro de endereço
-### Problema: o radio filtra automaticamente as mensagens do outro grafo por
-causa do end-point primario ("canal" unicast), onde esta o alive.
-Consequentemente, nao ocorre "found".
-### Possiveis soluções:
-#### * Alive trafegar no canal de hello. Desta maneira, payload da L2 precisa
-conter destinatario.
-#### Mandar hellos periodicos
-
-## Nos em movimento
-### Contexto: Necessidade dos nós trocarem de posição na rede.
-### Problema: Overhead de protocolo na reconstrução da rede enquanto o nó muda
-de posição.
-### Possíveis soluções:
-#### * Simplesmente ignorar, para o caso dos nós estarem espaçados o suficiente
-(suficiente == a rede se recontroi mais rapido que o nó troca de lugar)
-#### Tornar o nó que se move inalcançavel
-#### Toda mensagem destinada ao nó que se move ser broadcast.
-
-## CRC no radio não identifica decriptar com sucesso
-### Contexto: Rede criptorafada.
-### Problema: Identificar falha de "decript".
-### Possiveis soluções:
-#### * 1-2 bytes extras de CRC no payload.
-#### Detectar pelo (pelo tipo, destinatario e remetente)
-
-## Saida de um nó da rede.
-### Contexto: Um grafo qualquer.
-### Problema: Um nó sai da rede, como ele sai das tabelas de rotas?
-### Possiveis soluções:
-#### * Deixa dar timeout do alive.
-#### Deixa dar timeout de mensagem L3.
-#### ROGM invalidar rota. Lembrando que destinatario precisa reencaminhar este
-pacote.
-
-## Assincronismo no controle de envio de mensagens na L2
-### Contexto: Mensagens a serem enviadas e acks pendentes.
-### Problema: Preocupação com a ordem dos pacotes enviados a um vizinho.
-### Possiveis soluções:
-#### * Apenas um ack pendente por vizinho.
-#### Apenas um ack pendente para todos os vizinhos (100% sincrono)
-
-## Quebra e reconstrução de mensagens longas
-### Contexto: Mensagem maior do que cabe na L2
-
-## Prioridade na fila de envio.
-### Contexto: Vários pacotes esperando envio em ordem de chegada.
-### Problema: Possível atraso de pacotes prioritários.
-### Possiveis soluções:
-#### * 2 filas high e low. (consome X high para 1 low.)
-#### Priority queue.
-
-## Filtragem de mensagens recebidas.
-### Contexto: Receber uma mensagem destinada a outro (descartar).
-### Problema: Em que nível a aplicação discarta? Radio ou MCU.
-### Possiveis soluções:
-#### Radio: Ouvir no canal do seu endereço + ouvir um canal de broadcast.
-	(Requer solução diferente para merge de grafos.)
-	Alive no canal publico? --> POG
-	Hello sendo enviado continuamente?
-	* Eliminar o alive, Hello periódico com timeout.
-	   Se der timeout, pergunta pro nó se ele está vivo (com timeout do ack)
-#### MCU: If em algum lugar...
-
-## Criptografia a ser utilizada
-### Contexto: troca de mensagens entre nos
-### Problema: evitar visualizacao indevida dos dados transmitidos
-### Possiveis soluções:
-#### AES(key+seq) + CRC
-#### Xor(Rand{seed=key+seq}) + CRC
-#### AES(key) + Seq --> bloco 16bytes (rapido)
-#### Xor(Rand{seed=key+seq}) + Seq
-#### Xor(Rand_r{seed=key}) + CRC --> bloco por byte (lento)
+* definir o tratamento do ack (esperar o ack antes da prox msg?):
