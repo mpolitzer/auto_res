@@ -16,7 +16,7 @@ EXE=$(TARGET)
 .PHONY: all test clean
 all: $(EXE)
 zip: Makefile $(SRC) $(HDR)
-	zip -r mypackage.zip $^
+	zip -r $(TARGET).zip $^
 
 test: $(EXE)
 	./$<
