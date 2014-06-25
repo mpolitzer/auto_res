@@ -1,9 +1,10 @@
 CPATH=-I.
 
-TARGET=radio_mock_test
+TARGET=radio_drv_test
 # .c, .h, .S
 RESOURCES=$(TARGET).c           \
-	  radio_mock.c   radio_mock.h
+	  radio_dev.c   radio_dev.h \
+	  radio_drv.c   radio_drv.h
 
 SRC=$(filter %.c, ${RESOURCES})
 HDR=$(filter %.h, ${RESOURCES})

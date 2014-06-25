@@ -1,8 +1,12 @@
-#include "radio_mock.h"
 #include <assert.h>
-#define T struct radio
+#include "radio_dev.h"
+#define T struct radio_dev
 
-void radio_init(T *m, void (*irq)(uint8_t type, void *arg), void *arg)
+static void radio_dev_shift_buf(struct buf *m, uint8_t n);
+
+void radio_dev_init(T *m,
+		radio_dev_irq irq,
+		void *arg)
 {
 	assert(m);
 	assert(irq);
@@ -13,7 +17,7 @@ void radio_init(T *m, void (*irq)(uint8_t type, void *arg), void *arg)
 	m->arg = arg;
 }
 
-void radio_listen(T *m, uint8_t i, uint16_t addr)
+void radio_dev_listen(T *m, uint8_t i, uint16_t addr)
 {
 	assert(m);
 	assert(i < RADIO_NUM_LISTENERS);
@@ -21,14 +25,14 @@ void radio_listen(T *m, uint8_t i, uint16_t addr)
 	m->listeners[i] = addr;
 }
 
-void radio_set_to_rx(T *m, bool prim_rx)
+void radio_dev_set_to_rx(T *m, bool prim_rx)
 {
 	assert(m);
 
 	m->prim_rx = prim_rx;
 }
 
-void radio_write(T *m, uint16_t addr, uint8_t w[RADIO_MAX_PL], uint8_t len)
+void radio_dev_write(T *m, uint16_t addr, uint8_t w[RADIO_MAX_PL], uint8_t len)
 {
 	assert(m);
 	assert(m->prim_rx == false);
@@ -42,7 +46,7 @@ void radio_write(T *m, uint16_t addr, uint8_t w[RADIO_MAX_PL], uint8_t len)
 	m->txbuf_qtd++;
 }
 
-uint8_t radio_get_pl_len(T *m)
+uint8_t radio_dev_get_pl_len(T *m)
 {
 	assert(m);
 	assert(m->prim_rx == true);
@@ -51,20 +55,20 @@ uint8_t radio_get_pl_len(T *m)
 	return m->rx[0].len;
 }
 
-uint8_t radio_read(T *m, uint8_t r[RADIO_MAX_PL])
+uint8_t radio_dev_read(T *m, uint8_t r[RADIO_MAX_PL])
 {
 	uint8_t len;
 	assert(m);
 	assert(m->prim_rx == true);
 	assert(m->rxbuf_qtd > 0 && m->rxbuf_qtd <= RADIO_NUM_RX_BUFFERS);
 
-	len = radio_get_pl_len(m);
+	len = radio_dev_get_pl_len(m);
 	memcpy(r, m->rx[0].data, len);
-	radio_shift_buf(m->rx, m->rxbuf_qtd);
+	radio_dev_shift_buf(m->rx, m->rxbuf_qtd);
 	return len;
 }
 
-void radio_recv_cpy(T *self, struct buf *from_buf, struct buf *to_buf)
+static void radio_dev_recv_cpy(T *self, struct buf *from_buf, struct buf *to_buf)
 {
 	int i;
 	for(i = 0; i < RADIO_NUM_LISTENERS; i++)
@@ -72,32 +76,38 @@ void radio_recv_cpy(T *self, struct buf *from_buf, struct buf *to_buf)
 		if(from_buf->addr == self->listeners[i])
 		{
 			*to_buf = *from_buf;
-			self->gpio_irq(RADIO_MOCK_IRQ_RECEIVED, self->arg);
+			self->gpio_irq(RADIO_IRQ_RECEIVED,
+					self->arg);
 			break;
 		}
 	}
 }
 
-void radio_transfer(T *from, T *to)
+void radio_dev_transfer(T *from, T *to)
 {
 	struct buf *from_buf = &from->tx[0],
 		   *to_buf   = &to->rx[to->rxbuf_qtd++];
 	
-	radio_recv_cpy(to, from_buf, to_buf);
+	radio_dev_recv_cpy(to, from_buf, to_buf);
 }
 
-void radio_end_transfer(T *from)
+void radio_dev_end_transfer(T *from)
 {
-	radio_shift_buf(from->tx, from->txbuf_qtd);
+	radio_dev_shift_buf(from->tx, from->txbuf_qtd);
 	from->txbuf_qtd--;
-	from->gpio_irq(RADIO_MOCK_IRQ_SENT, from->arg);
+	from->gpio_irq(RADIO_IRQ_SENT, from->arg);
 }
 
-void radio_shift_buf(struct buf *m, uint8_t n)
+static void radio_dev_shift_buf(struct buf *m, uint8_t n)
 {
 	for (int i=0; i < n-1; i++) {
 		struct buf *from_buf = &m[i+1],
 			   *to_buf =   &m[i];
 		*to_buf = *from_buf;
 	}
+}
+
+void radio_dev_auto_ack(T *m, bool _)
+{
+	// noop :)
 }
