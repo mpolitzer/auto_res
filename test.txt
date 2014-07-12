@@ -1,0 +1,7 @@
+1) ver o q acontece ao misturar autoack com not-autoack.
+	'-> ack realmente não volta.
+2) o que acontece ao receber um pacote aleatório durante um autoack.
+	'->bloqueia esperando ack.
+3) testar se mais de uma mensagem eh enviada por vez.
+	'-> usar available() para ler fifo de rx toda
+4) carrier detect em modo rx
