@@ -24,9 +24,3 @@ struct l3msg_t *msg_get_l3(struct msg_t *m)
 	struct l2msg_t *l2 = msg_get_l2(m);
 	return l2->pl;
 }
-
-struct l4msg_t *msg_get_l4(struct msg_t *m)
-{
-	struct l3msg_t *l3 = msg_get_l3(m);
-	return l3->pl;
-}

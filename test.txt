@@ -5,3 +5,5 @@
 3) testar se mais de uma mensagem eh enviada por vez.
 	'-> usar available() para ler fifo de rx toda
 4) carrier detect em modo rx
+	'-> Não funfa. (tem q trocar de modo para ler.)
+	'-> Funciona quando a mensagem é para outro.

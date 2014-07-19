@@ -1,0 +1,10 @@
+typedef struct {
+	// uint8_t id; // se for esparça
+	uint8_t timeout;
+} l2_entry;
+
+typedef struct {
+	// uint8_t id; // se for esparça
+	uint8_t seq:1;
+	uint8_t hop:7; // até 128 nós.
+} l3_entry;

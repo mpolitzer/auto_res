@@ -6,8 +6,8 @@ struct msg_t {
 };
 
 #define L2_HELLO
-#define L2_ALIVE
-#define L2_ACK
+#define L2_PING
+#define L2_PONG
 #define L2_PL
 struct l2msg_t {
 	uint16_t src; // 2

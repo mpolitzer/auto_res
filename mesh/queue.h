@@ -20,8 +20,8 @@ H {
 };
 
 /* A queue entry uses its own pointer as guard. */
-#define SLIST_ENTRY_INIT(name) { &(name) }
-#define SLIST_HEAD_INIT(name) { 0, &(name.head) }
+#define QUEUE_ENTRY_INIT(name) { &(name) }
+#define QUEUE_HEAD_INIT(name) { 0, &(name.head) }
 
 /* -------------------------------------------------------------------------- */
 void queue_head_init(H *h);

@@ -1,12 +1,8 @@
-## Merge de grafos multi end points
-### Contexto: dois end-points com filtro de endereço
-### Problema: o radio filtra automaticamente as mensagens do outro grafo por
-causa do end-point primario ("canal" unicast), onde esta o alive.
-Consequentemente, nao ocorre "found".
-### Possiveis soluções:
-#### * Alive trafegar no canal de hello. Desta maneira, payload da L2 precisa
-conter destinatario.
-#### Mandar hellos periodicos
+## seq number (não é problema pois...)
+### - msg broadcast não tem ack, logo não tem retransmissão.
+### - msg n é sempre enviada antes da (n+1).
+### - msg broadcast se propaga de forma radial
+### Logo, ao receber (n+1), n já foi recebido.
 
 ## Nos em movimento
 ### Contexto: Necessidade dos nós trocarem de posição na rede.
@@ -72,3 +68,19 @@ pacote.
 #### AES(key) + Seq --> bloco 16bytes (rapido)
 #### Xor(Rand{seed=key+seq}) + Seq
 #### Xor(Rand_r{seed=key}) + CRC --> bloco por byte (lento)
+
+################################################################################
+# Descartados
+################################################################################
+
+## Merge de grafos multi end points
+### Contexto: dois end-points com filtro de endereço
+### Problema: o radio filtra automaticamente as mensagens do outro grafo por
+causa do end-point primario ("canal" unicast), onde esta o alive.
+Consequentemente, nao ocorre "found".
+### Possiveis soluções:
+#### * Alive trafegar no canal de hello. Desta maneira, payload da L2 precisa
+conter destinatario.
+#### Mandar hellos periodicos
+
+
