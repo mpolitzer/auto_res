@@ -1,15 +1,3 @@
-* definir as menasagens (agora que escolhemos modelo hello/ping):
-** l2
-  - [ ] hello
-  - [ ] ping
-  - [ ] ack
-
-** l3
-  - [ ] ogm
-  - [ ] rogm
-
-** lapp
-  - [ ] msg
-
-
-* definir o tratamento do ack (esperar o ack antes da prox msg?):
+Implementando Driver do radio sobre RF24 para ARDUINO!
+TODO:
+	l2, l3, lib
