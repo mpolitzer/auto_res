@@ -1,7 +1,6 @@
 #ifndef RADIO_DRV_H
 #define RADIO_DRV_H
 
-#include "radio_dev.h"
 #define T struct radio_drv
 
 #define RADIO_TX_BUF 3
@@ -10,6 +9,8 @@ T {
 	RadioDev dev;
 	uint8_t tx_pending;
 };
+
+typedef void (*radio_dev_irq) (void *);
 
 void   radio_drv_init(T *self, radio_dev_irq cb, void *arg);
 
